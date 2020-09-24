@@ -47,18 +47,17 @@ public class heap_SOOrt {
         }
 
 
-        public static void main(String args[]) {
+        public static void main(int[] array) {
 
-            int arr[] = /*{12, 11, 13, 5, 6, 7};*/ {1,1,1,0};
-            int n = arr.length;
+            int n = array.length;
 
             heap_SOOrt ob = new heap_SOOrt();
-            ob.sort(arr);
+            ob.sort(array);
 
             System.out.println("Sorted array: ");
 
             for (int i=0; i<n; ++i)
-                System.out.print(arr[i]+" ");
+                System.out.print(array[i]+" ");
         }
 
 }
