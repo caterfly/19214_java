@@ -1,15 +1,20 @@
-public class heap_SOOrt {
-        public void sort(int arr[])
-        {
+public class HeapSort {
+        /**
+        * Метод строит кучу из входного массива
+        * извелкает элементы из кучи по одному
+        * и тем самым сортирует входящий массив
+        * @param arr
+        */
+        private static void sort(int arr[]) {
             int n = arr.length;
 
             // Построение кучи
-            for (int i = n / 2 - 1; i >= 0; i--)
+            for (int i = n / 2 - 1; i >= 0; i--) {
                 heapify(arr, n, i);
+            }
 
             //извлекаем элементы из кучи по одному
-            for (int i=n-1; i>=0; i--)
-            {
+            for (int i=n-1; i>=0; i--) {
                 // Перемещаем текущий корень в конец
                 int temp = arr[0];
                 arr[0] = arr[i];
@@ -20,23 +25,29 @@ public class heap_SOOrt {
             }
         }
 
-        // Процедура для преобразования в двоичную кучу поддерева с корневым узлом i, что является
-        // индексом в arr[]. n - размер кучи
-        void heapify(int arr[], int n, int i) {
+        /**
+         * Метод для преобразования в двоичную кучу поддерева с корневым узлом i, что является
+         * индексом в arr[]. n - размер кучи
+         * @param arr
+         * @param n
+         * @param i
+         */
+        private static void heapify(int arr[], int n, int i) {
             int largest = i; // наибольший элемент как корень
             int l = 2*i + 1; //левый = 2*i + 1
             int r = 2*i + 2; //правый = 2*i + 2
 
             // Если левый дочерний элемент больше корня
-            if (l < n && arr[l] > arr[largest])
+            if (l < n && arr[l] > arr[largest]) {
                 largest = l;
+            }
 
             // Если правый дочерний элемент больше, чем самый большой элемент на данный момент
-            if (r < n && arr[r] > arr[largest])
+            if (r < n && arr[r] > arr[largest]) {
                 largest = r;
+            }
             // Если самый большой элемент не корень
-            if (largest != i)
-            {
+            if (largest != i) {
                 int swap = arr[i];
                 arr[i] = arr[largest];
                 arr[largest] = swap;
@@ -51,13 +62,13 @@ public class heap_SOOrt {
 
             int n = array.length;
 
-            heap_SOOrt ob = new heap_SOOrt();
-            ob.sort(array);
+            HeapSort.sort(array);
 
             System.out.println("Sorted array: ");
 
-            for (int i=0; i<n; ++i)
-                System.out.print(array[i]+" ");
+            for (int i=0; i<n; ++i) {
+                System.out.print(array[i] + " ");
+            }
         }
 
 }
