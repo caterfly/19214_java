@@ -25,7 +25,7 @@ public class Tests {
     }
 
     public void letsCheckIt(int[] arr, int[] sortedArr){
-        heap_SOOrt.main(arr);
+        HeapSort.main(arr);
         assertArrayEquals(sortedArr, arr);
     }
 }
