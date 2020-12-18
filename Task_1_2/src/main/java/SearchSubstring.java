@@ -14,7 +14,7 @@ public class SearchSubstring {
 
         ArrayList<Long> indexes = new ArrayList<>();
         String subStringName = new String(subString.getBytes(),StandardCharsets.UTF_8);
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, StandardCharsets.UTF_8))) { // one more battle
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, StandardCharsets.UTF_8), subString.length()*2)) { // one more battle
             int ch;                     //
             long headSubstring = 0;      // write here position in file of substring's beginning
             long currPosInFile = 0;      // we go through the file char by char
@@ -46,9 +46,6 @@ public class SearchSubstring {
                 currPosInFile++;
 
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return indexes;
     }
