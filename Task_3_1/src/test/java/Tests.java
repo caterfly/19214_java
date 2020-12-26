@@ -55,7 +55,7 @@ public class Tests {
     public void test_7() throws CloneNotSupportedException {
         int days = greg.daysTillNewYear(today);
 
-        Assert.assertEquals(10, days);
+        Assert.assertEquals(8, days);
     }
 
     @Test
@@ -65,4 +65,12 @@ public class Tests {
 
         Assert.assertTrue(actual.equals(friday));
     }
+
+    @Test
+    public void test_9() throws CloneNotSupportedException {
+        MyDate past = greg.addDays(today, -365);
+
+        Assert.assertEquals(12, past.getMonth());
+    }
+
 }

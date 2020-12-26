@@ -49,8 +49,8 @@ public class Gregor {
                 }
             } else {
                 if (date.getDay() == 1) {
-                    if (date.getMonth() - 2 < 0) {
-                        date.setDay(cntOfDays[date.getMonth() + 12]);
+                    if (date.getMonth() == 1) {
+                        date.setDay(cntOfDays[12 - 1]);
                         date.decYear();
                         date.setMonth(12);
                     } else {
