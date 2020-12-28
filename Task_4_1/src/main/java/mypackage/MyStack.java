@@ -1,8 +1,12 @@
+package mypackage;
+
 import java.util.Arrays;
 import java.util.EmptyStackException;
 import java.util.Iterator;
 
-public class Stack<Type> implements Iterable<Type> {
+//Yeah it's my stack class from Task_2_1, and finally it is needable
+
+public class MyStack<Type> implements Iterable<Type> {
 
     private Type[] stack;
     private int counter = 0;
@@ -11,7 +15,7 @@ public class Stack<Type> implements Iterable<Type> {
     /**
      * initial stack for 1 elem size
      */
-    Stack() {
+    MyStack() {
         stack = (Type[])new Object[1];
         size = 1;
     }
@@ -33,6 +37,11 @@ public class Stack<Type> implements Iterable<Type> {
         size *= 2;
     }
 
+    @SuppressWarnings("unchecked")
+    public void clear() {
+        this.counter = 0;
+        this.stack = (Type[]) new Object[size];
+    }
 
     /**
      * @return pop out elem from stack
