@@ -1,12 +1,11 @@
 import org.junit.Assert;
 import org.junit.Test;
 import mypackage.Gregor;
-import mypackage.MyDate;
 
 public class Tests {
 
     private Gregor greg = new Gregor();
-    private MyDate today = new MyDate(24, 12, 2020);
+    private Gregor today = new Gregor(24, 12, 2020);
 
     @Test
     public void test_1() throws CloneNotSupportedException {
@@ -16,16 +15,16 @@ public class Tests {
 
     @Test
     public void test_2() throws CloneNotSupportedException {
-        MyDate war = new MyDate(9, 5, 1945);
-        MyDate actual = new MyDate(15, 7, 75);
-        MyDate diff = greg.difference(today, war);
+        Gregor war = new Gregor(9, 5, 1945);
+        Gregor actual = new Gregor(15, 7, 75);
+        Gregor diff = greg.difference(today, war);
 
         Assert.assertTrue(actual.equals(diff));
     }
 
     @Test
     public void test_3() throws CloneNotSupportedException {
-        MyDate birth = new MyDate(31, 5, 2000);
+        Gregor birth = new Gregor(31, 5, 2000);
         int weekDay = greg.weekDayByDate(birth);
 
         Assert.assertEquals(3, weekDay);
@@ -33,21 +32,21 @@ public class Tests {
 
     @Test
     public void test_4() throws CloneNotSupportedException {
-        MyDate future = greg.addDays(today, 17 * 7);
+        Gregor future = greg.addDays(today, 17 * 7);
 
         Assert.assertEquals(4, future.getMonth());
     }
 
     @Test
     public void test_5() throws CloneNotSupportedException {
-        MyDate future = greg.addMonths(today, 11);
+        Gregor future = greg.addMonths(today, 11);
 
         Assert.assertEquals(11, future.getMonth());
     }
 
     @Test
     public void test_6() throws CloneNotSupportedException {
-        MyDate future = greg.addYears(today, 208);
+        Gregor future = greg.addYears(today, 208);
 
         Assert.assertEquals(2228, future.getYear());
     }
@@ -60,15 +59,15 @@ public class Tests {
 
     @Test
     public void test8() throws CloneNotSupportedException {
-        MyDate friday = greg.friday13(today);
-        MyDate actual = new MyDate(13, 8, 2021);
+        Gregor friday = greg.friday13(today);
+        Gregor actual = new Gregor(13, 8, 2021);
 
         Assert.assertTrue(actual.equals(friday));
     }
 
     @Test
     public void test_9() throws CloneNotSupportedException {
-        MyDate past = greg.addDays(today, -365);
+        Gregor past = greg.addDays(today, -365);
 
         Assert.assertEquals(12, past.getMonth());
     }
