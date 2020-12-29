@@ -1,4 +1,4 @@
-package mypackage.operations;
+package mypackage;
 
 /**
  * Base class for operations
@@ -9,15 +9,9 @@ package mypackage.operations;
 
 public abstract class Operation {
 
-    public final int arity;
-    private int cnt;
-    private double[] arguments;
+    public int cnt;
+    private double[] arguments = new double[getArity()];
 
-    Operation(int arity) {
-        this.cnt = 0;
-        this.arity = arity;
-        this.arguments = new double[arity];
-    }
 
     /**
      * Store input argument for future processing
@@ -37,14 +31,6 @@ public abstract class Operation {
     }
 
     /**
-     * Check if current number of arguments satisfies arity of function
-     * @return true - if satisfied, otherwise false
-     */
-    public boolean readyToCalculate() {
-        return arity == cnt;
-    }
-
-    /**
      * Set current number of arguments to 0
      * in order to prepare the object for next calculations
      */
@@ -58,4 +44,15 @@ public abstract class Operation {
      */
     public abstract double execute();
 
+    /**
+     * Abstract method which should be implemented in child classes
+     * @return int - arity of the operation
+     */
+    public abstract int getArity();
+
+    /**
+     * Abstract method which should be implemented in child classes
+     * @return String - string representation of the operation
+     */
+    public abstract String getOperationSymbol();
 }
