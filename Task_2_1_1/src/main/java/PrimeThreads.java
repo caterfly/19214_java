@@ -1,128 +1,72 @@
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.function.Predicate;
+import java.util.stream.StreamSupport;
+
 
 public class PrimeThreads<T> {
 
+    public boolean search(Iterable<T> list, Predicate<T> pred, int nthreads) {
 
 
+        Thread[] threads = new Thread[nthreads];
 
-    private final int nthreads;
+        Bool isFound = new Bool();
 
-    PrimeThreads(int nthreads) {
-        answer = new Answer<T>();
-        this.nthreads = nthreads;
-    }
+        for (int i = 0; i < nthreads; i++) {
 
+            Iterator<T> iter = list.iterator();
 
-    private Iterator<T> nthThread(Iterator<T> iter, int N) {
-
-        ArrayList<T> nth = new ArrayList<T>();
-
-        for (int i = 0; iter.hasNext(); ++i) {
-            T elem = iter.next();
-
-            if (i % N == 0) {
-                nth.add(elem);
-            }
-        }
-
-        return nth.iterator();
-    }
-
-    private Answer<T> answer;
-
-    public static class Answer<T> {
-
-        private boolean isFound = false;
-        T answ;
-
-        Answer(){}
-
-        synchronized void setAnswer(T answer) {
-
-            answ = answer;
-            isFound = true;
-        }
-
-        boolean isAnswerFound() {
-            return isFound;
-        }
-
-    }
-
-    public static class ThreadStuff<T> extends Thread {
-
-        private final Iterator<T> iter;
-        private final Predicate<T> pred;
-        private Answer<T> answ;
-        private final Thread thr;
-
-        ThreadStuff(Iterator<T> iter, Predicate<T> pred, Answer<T> answ) {
-            this.iter = iter;
-            this.pred = pred;
-            this.answ = answ;
-            this.thr = new Thread(this);
-            thr.start();
-        }
-
-        @Override
-        public void run() {
-
-            while (iter.hasNext()) {
-                if (answ.isAnswerFound()) {
-                    return;
-                }
-
-                T elem = iter.next();
-                if(pred.test(elem)) {
-                    answ.setAnswer(elem);
-                }
-            }
-        }
-
-
-
-    }
-
-    Answer<T> runThreads (ArrayList<T> tasks, int nthreads, Predicate<T> predicate) {
-
-        boolean isEnough = true;
-        ArrayList<ThreadStuff<T>> handlers = new ArrayList<>();
-
-        for(int i = 0; i < nthreads; ++i) {
-
-            Iterator<T> iter = tasks.iterator();
-
-            for (int j = 0; j < i; ++j) {
-
-                if (iter.hasNext())
-                    iter.next();
-
-                else {
-                    isEnough = false;
-                    break;
-                }
+            for (int j = 0; j < i; j++) {
+                iter.next();
             }
 
-            if (!isEnough) {
-                break;
-            }
-
-            Iterator<T> task = nthThread(iter, nthreads);
-            handlers.add(new ThreadStuff<T>(task, predicate, answer));
+            threads[i] = new LookupThread<T>(iter, pred, nthreads, isFound);
         }
 
-        for (ThreadStuff<T> handler : handlers) {
+        for (int i = 0; i <  nthreads; i++) {
+            threads[i].start();
+        }
+
+        for (int i = 0; i <  nthreads; i++) {
+
             try {
-                handler.thr.join();
-            }
-            catch (InterruptedException e) {
-                System.out.println("Without any further interruption let's celebrate and SSD");
+                threads[i].join();
+            } catch (InterruptedException e) {
+                if (isFound.getValue()) {
+                    return true;
+                }
+                e.printStackTrace();
+                throw new Error("Thread interruption happened");
             }
         }
 
-        return answer;
+        return isFound.getValue();
     }
+
+    public boolean findParallels(Iterable<T> iter, Predicate<T> pred) {
+        return StreamSupport.stream(iter.spliterator(), false).parallel().anyMatch(pred);
+    }
+
+    public static class Bool {
+
+        boolean value;
+
+        Bool() {
+            this(false);
+        }
+
+        Bool(boolean value) {
+            this.value = value;
+        }
+
+        public boolean getValue() {
+            return value;
+        }
+
+        public void setValue(boolean value) {
+            this.value = value;
+        }
+    }
+
 
 }
